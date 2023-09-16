@@ -1,3 +1,7 @@
-export async function bootstrap(): Promise<string> {
-  return "bootstrapped 👋"
+import 'dotenv/config'
+
+export function bootstarp() {
+  return {}
 }
+
+bootstarp()
