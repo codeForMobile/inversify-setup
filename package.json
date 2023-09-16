@@ -9,10 +9,14 @@
     "test:cov": "jest --verbose --collectCoverage",
     "build": "tsc",
     "test:watch": "jest --watch --verbose",
-    "lint": "eslint . --ext .ts",
-    "prepare": "husky install"
+    "lint": "eslint . --ext .ts"
   },
   "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jest-mock-extended": "^2.0.7",
+    "mongoose": "^7.5.2"
+  },
   "devDependencies": {
     "@jest-decorated/core": "^0.1.7",
     "@types/jest": "^28.1.8",
