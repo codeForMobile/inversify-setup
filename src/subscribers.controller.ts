@@ -1,5 +1,5 @@
 import { Request, Response} from 'express'
-import { controller, httpGet, httpPost } from 'inversify-express-utils'
+import { controller, httpGet, httpPatch, httpPost } from 'inversify-express-utils'
 import { SubscribersService } from './subscribers.service';
 
 @controller('/subscribers')
@@ -34,5 +34,15 @@ export class SubscribersController{
                 subscriber
             }
         })
+    }
+
+    @httpPatch('/:id')
+    async update (req: Request, res: Response) {
+        const updatedSubscriber = await this._service.updateOne(req.params.id, req.body)
+            res.json({
+                data: {
+                    subcriber: updatedSubscriber
+                }
+            })
     }
 }

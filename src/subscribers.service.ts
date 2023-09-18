@@ -16,4 +16,9 @@ export class SubscribersService {
     async create(payload: any) {
         return this._subscribersRepo.create(payload)
     }
+
+    async updateOne(id: string, payload: any) {
+        const subscriber = await this.findOne(id)
+        return this._subscribersRepo.updateOne(subscriber, payload)
+    }
 }

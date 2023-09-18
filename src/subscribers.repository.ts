@@ -16,4 +16,10 @@ export class SubscribersRepository {
     async create({name, subscribedToChannel} : {name: string, subscribedToChannel: string}) {
         return this._dbContext.subscriber.create({ name, subscribedToChannel })
     }
+
+    async updateOne(subscriber: any, payload: any) {
+        subscriber.name = payload.name
+        subscriber.subscribedToChannel = payload.subscribedToChannel
+        return subscriber.save()
+    }
 }
