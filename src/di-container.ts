@@ -1,7 +1,7 @@
 import { Container } from 'inversify'
-import { DBService } from './db.service'
-import { SubscribersRepository } from './subscribers.repository'
-import { SubscribersService } from './subscribers.service'
+import { DBService } from './data/db.service'
+import { SubscribersRepository } from './data/subscribers.repository'
+import { SubscribersService } from './core/subscribers.service'
 
 export const container = new Container({
     defaultScope: 'Singleton'

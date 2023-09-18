@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { SubscribersRepository } from "./subscribers.repository";
+import { SubscribersRepository } from "../data/subscribers.repository";
 
 @injectable()
 export class SubscribersService {
@@ -20,5 +20,9 @@ export class SubscribersService {
     async updateOne(id: string, payload: any) {
         const subscriber = await this.findOne(id)
         return this._subscribersRepo.updateOne(subscriber, payload)
+    }
+
+    async deleteOne(id:string) {
+        return this._subscribersRepo.deleteOne(id)        
     }
 }

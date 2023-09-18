@@ -22,4 +22,8 @@ export class SubscribersRepository {
         subscriber.subscribedToChannel = payload.subscribedToChannel
         return subscriber.save()
     }
+
+    async deleteOne(id:string){
+        return this._dbContext.subscriber.deleteOne({_id: id})
+    }
 }

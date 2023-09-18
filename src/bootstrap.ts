@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import 'reflect-metadata'
-import './subscribers.controller'
-import { App } from './application'
+import './web/subscribers.controller'
+import { App } from './web/application'
 
 console.clear()
 

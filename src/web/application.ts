@@ -1,7 +1,7 @@
 import express from "express"
 import { InversifyExpressServer } from "inversify-express-utils"
-import { container } from "./di-container"
-import { DBService } from "./db.service"
+import { container } from "../di-container"
+import { DBService } from "../data/db.service"
 
 export class App {
     async setup(){

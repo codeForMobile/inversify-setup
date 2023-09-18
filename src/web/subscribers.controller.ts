@@ -1,6 +1,6 @@
 import { Request, Response} from 'express'
-import { controller, httpGet, httpPatch, httpPost } from 'inversify-express-utils'
-import { SubscribersService } from './subscribers.service';
+import { controller, httpDelete, httpGet, httpPatch, httpPost } from 'inversify-express-utils'
+import { SubscribersService } from '../core/subscribers.service';
 
 @controller('/subscribers')
 export class SubscribersController{
@@ -44,5 +44,11 @@ export class SubscribersController{
                     subcriber: updatedSubscriber
                 }
             })
+    }
+
+    @httpDelete('/:id')
+    async destory (req: Request, res: Response) {
+        await this._service.deleteOne(req.params.id)
+        res.status(204)
     }
 }
