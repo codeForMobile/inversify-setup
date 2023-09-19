@@ -16,4 +16,5 @@ export const subscriberModel = new mongoose.Schema({
   }
 })
 export type Subscriber = typeof subscriberModel
+
 //module.exports = mongoose.model('Subscriber', subscriberSchema)

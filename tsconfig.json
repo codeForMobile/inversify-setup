@@ -2,8 +2,14 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "strict": false,
+    "strict": true,
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@logic/*":["src/logic/*"],
+      "@web/*": ["src/web/*"],
+      "@data/*":["src/data/*"]
+    },  
     "outDir": "./dist",
     "esModuleInterop": true,
     "experimentalDecorators": true,

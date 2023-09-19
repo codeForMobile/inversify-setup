@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { SubscribersRepository } from "../data/subscribers.repository";
+import { SubscribersRepository } from "@data/subscribers.repository";
 
 @injectable()
 export class SubscribersService {

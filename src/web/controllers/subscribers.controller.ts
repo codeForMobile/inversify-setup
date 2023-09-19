@@ -1,13 +1,13 @@
 import { Request, Response} from 'express'
 import { controller, httpDelete, httpGet, httpPatch, httpPost } from 'inversify-express-utils'
-import { SubscribersService } from '../core/subscribers.service';
+import { SubscribersService } from '@logic/subscribers.service';
 
 @controller('/subscribers')
 export class SubscribersController{
     constructor (private readonly _service: SubscribersService){}
 
     @httpGet('/')
-    async index(_req, res){
+    async index(_req: Request, res: Response){
         const subscribers = await this._service.all()
         res.json({
             data: {

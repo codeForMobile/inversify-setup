@@ -1,9 +1,9 @@
 import { injectable } from "inversify"
 import mongoose from "mongoose"
-import { subscriberModel } from "./subscribers.model"
+import { subscriberModel } from "@data/subscribers.model"
 
 @injectable()
-export class DBService {
+export class DBContext {
     private _db: typeof mongoose
     async connect(){
         this._db = await mongoose.connect(process.env.DB_URI as string)

@@ -1,15 +1,15 @@
 import { injectable } from "inversify";
-import { DBService } from "./db.service";
+import { DBContext } from "@data/db.context";
 
 @injectable()
 export class SubscribersRepository {
-    constructor(private readonly _dbContext: DBService){}
+    constructor(private readonly _dbContext: DBContext){}
 
     async all() {
         return this._dbContext.subscriber.find({})
     }
 
-    async findOne(id) {
+    async findOne(id: string) {
         return this._dbContext.subscriber.findById(id)
     }
 
