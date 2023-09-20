@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import { DBContext } from "@data/db.context";
+import { ISubscriber } from "./subscribers.model";
 
 @injectable()
 export class SubscribersRepository {
@@ -13,8 +14,8 @@ export class SubscribersRepository {
         return this._dbContext.subscriber.findById(id)
     }
 
-    async create({name, subscribedToChannel} : {name: string, subscribedToChannel: string}) {
-        return this._dbContext.subscriber.create({ name, subscribedToChannel })
+    async create(entity: Partial<ISubscriber>) {
+        return this._dbContext.subscriber.create(entity)
     }
 
     async updateOne(subscriber: any, payload: any) {

@@ -1,5 +1,7 @@
 import { injectable } from "inversify";
 import { SubscribersRepository } from "@data/subscribers.repository";
+import { CreateSubscriberDto } from "./dtos";
+import { SubscriberDto } from "./dtos/subscribers/subscriber.dto";
 
 @injectable()
 export class SubscribersService {
@@ -13,8 +15,9 @@ export class SubscribersService {
         return this._subscribersRepo.findOne(id)
     }
 
-    async create(payload: any) {
-        return this._subscribersRepo.create(payload)
+    async create(createSubscriberDto: CreateSubscriberDto) {
+        const createdSubscriber = await this._subscribersRepo.create(createSubscriberDto)
+        return SubscriberDto.from(createdSubscriber)
     }
 
     async updateOne(id: string, payload: any) {

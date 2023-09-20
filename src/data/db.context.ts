@@ -1,6 +1,6 @@
 import { injectable } from "inversify"
 import mongoose from "mongoose"
-import { subscriberModel } from "@data/subscribers.model"
+import { ISubscriber, subscriberModel } from "@data/subscribers.model"
 
 @injectable()
 export class DBContext {
@@ -11,6 +11,6 @@ export class DBContext {
     }
 
     get subscriber() {
-        return this._db.model('Subscriber', subscriberModel)
+        return this._db.model<ISubscriber>('Subscriber', subscriberModel)
     }
 }

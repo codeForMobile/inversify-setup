@@ -1,6 +1,9 @@
 import { Request, Response} from 'express'
 import { controller, httpDelete, httpGet, httpPatch, httpPost } from 'inversify-express-utils'
 import { SubscribersService } from '@logic/subscribers.service';
+import { CreateSubscriberDto } from '@logic/dtos';
+import { SubscriberDto } from '@logic/dtos/subscribers/subscriber.dto';
+import { ValidateRequestMiddleware } from '@web/middlewares/validate-request.middleware';
 
 @controller('/subscribers')
 export class SubscribersController{
@@ -26,10 +29,11 @@ export class SubscribersController{
         })
     }
 
-    @httpPost('/')
+    @httpPost('/', ValidateRequestMiddleware.with(CreateSubscriberDto))
     async store(req:Request, res:Response){
         const subscriber = await this._service.create(req.body)
-        res.sendStatus(201).json({
+        
+        res.status(201).json({
             data: {
                 subscriber
             }
