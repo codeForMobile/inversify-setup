@@ -7,6 +7,8 @@ import { SubscribersRepository } from "@data/subscribers.repository"
 import { SubscribersService } from "@logic/subscribers.service"
 
 import '@web/controllers/subscribers.controller'
+import { HttpException } from "./exceptions/http-exception"
+import { ValidationException } from "@logic/exceptions"
 export class App extends Application{
     configureServices(container: Container): void {
       container.bind(DBContext).toSelf()
@@ -17,6 +19,20 @@ export class App extends Application{
         const _db = this.container.get(DBContext)
         await _db.connect()
         const server = new InversifyExpressServer(this.container)
+        server.setErrorConfig((app) =>{
+          //@ts-ignore
+          app.use((err, req, res,next) =>{
+            if(err instanceof ValidationException) {
+              res.status(419).json({
+                data: [],
+                error: err.message
+              })
+            }
+            console.log(err)
+            next()
+          })
+        })
+
         server.setConfig((app) =>{
           app.use(express.json())
         })
