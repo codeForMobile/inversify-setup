@@ -1,7 +1,7 @@
 import { Request, Response} from 'express'
 import { controller, httpDelete, httpGet, httpPatch, httpPost } from 'inversify-express-utils'
 import { SubscribersService } from '@logic/subscribers.service';
-import { CreateSubscriberDto } from '@logic/dtos';
+import { CreateSubscriberDto, GetOneSubscriberDto } from '@logic/dtos';
 import { SubscriberDto } from '@logic/dtos/subscribers/subscriber.dto';
 import { ValidateRequestMiddleware } from '@web/middlewares/validate-request.middleware';
 
@@ -19,9 +19,9 @@ export class SubscribersController{
         })
     }
 
-    @httpGet('/:id')
+    @httpGet('/:id', ValidateRequestMiddleware.withParams(GetOneSubscriberDto))
     async show(req: Request, res:Response) {
-        const subscriber = await this._service.findOne(req.params.id)
+        const subscriber = await this._service.findOne(req.body)
         res.json({
             data: {
                 subscriber

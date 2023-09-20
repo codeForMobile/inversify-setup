@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { SubscribersRepository } from "@data/subscribers.repository";
-import { CreateSubscriberDto } from "./dtos";
+import { CreateSubscriberDto, GetOneSubscriberDto } from "./dtos";
 import { SubscriberDto } from "./dtos/subscribers/subscriber.dto";
 
 @injectable()
@@ -11,8 +11,12 @@ export class SubscribersService {
        return this._subscribersRepo.all()
     } 
 
-    async findOne(id: string) {
-        return this._subscribersRepo.findOne(id)
+    async findOne(getOneSubscriberDto : GetOneSubscriberDto) {
+        const foundSubscriber = await this._subscribersRepo.findOne(getOneSubscriberDto.id)
+        if (!foundSubscriber) {
+            throw new Error('No subscribers were found with given id')
+        }
+        return SubscriberDto.from(foundSubscriber)
     }
 
     async create(createSubscriberDto: CreateSubscriberDto) {
@@ -21,7 +25,7 @@ export class SubscribersService {
     }
 
     async updateOne(id: string, payload: any) {
-        const subscriber = await this.findOne(id)
+        const subscriber = await this.findOne({id})
         return this._subscribersRepo.updateOne(subscriber, payload)
     }
 

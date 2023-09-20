@@ -10,7 +10,7 @@ export class SubscribersRepository {
         return this._dbContext.subscriber.find({})
     }
 
-    async findOne(id: string) {
+    async findOne(id: ISubscriber['_id']) {
         return this._dbContext.subscriber.findById(id)
     }
 
