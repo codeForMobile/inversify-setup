@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { SubscribersRepository } from "@data/subscribers.repository";
-import { CreateSubscriberDto, GetOneSubscriberDto } from "./dtos";
+import { CreateSubscriberDto, GetOneSubscriberDto, UpdateSubscriberDto } from "./dtos";
 import { SubscriberDto } from "./dtos/subscribers/subscriber.dto";
 
 @injectable()
@@ -8,7 +8,8 @@ export class SubscribersService {
     constructor(private readonly _subscribersRepo: SubscribersRepository){}
 
     async all() {
-       return this._subscribersRepo.all()
+       const subscribers = await this._subscribersRepo.all()
+       return SubscriberDto.fromMany(subscribers)
     } 
 
     async findOne(getOneSubscriberDto : GetOneSubscriberDto) {
@@ -24,9 +25,13 @@ export class SubscribersService {
         return SubscriberDto.from(createdSubscriber)
     }
 
-    async updateOne(id: string, payload: any) {
-        const subscriber = await this.findOne({id})
-        return this._subscribersRepo.updateOne(subscriber, payload)
+    async updateOne(updateSubscriberDto: UpdateSubscriberDto) {
+        //TODO: Implement proper mapping
+        return this._subscribersRepo.updateOne({
+            _id: updateSubscriberDto.id,
+            name: updateSubscriberDto.name,
+            channel: updateSubscriberDto.channel
+        })
     }
 
     async deleteOne(id:string) {

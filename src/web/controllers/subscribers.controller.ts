@@ -1,7 +1,7 @@
 import { Request, Response} from 'express'
 import { controller, httpDelete, httpGet, httpPatch, httpPost } from 'inversify-express-utils'
 import { SubscribersService } from '@logic/subscribers.service';
-import { CreateSubscriberDto, GetOneSubscriberDto } from '@logic/dtos';
+import { CreateSubscriberDto, GetOneSubscriberDto, UpdateSubscriberDto } from '@logic/dtos';
 import { SubscriberDto } from '@logic/dtos/subscribers/subscriber.dto';
 import { ValidateRequestMiddleware } from '@web/middlewares/validate-request.middleware';
 
@@ -40,9 +40,9 @@ export class SubscribersController{
         })
     }
 
-    @httpPatch('/:id')
+    @httpPatch('/:id', ValidateRequestMiddleware.withParams(UpdateSubscriberDto))
     async update (req: Request, res: Response) {
-        const updatedSubscriber = await this._service.updateOne(req.params.id, req.body)
+        const updatedSubscriber = await this._service.updateOne(req.body)
             res.json({
                 data: {
                     subcriber: updatedSubscriber

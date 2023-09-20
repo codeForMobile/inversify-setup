@@ -18,10 +18,20 @@ export class SubscribersRepository {
         return this._dbContext.subscriber.create(entity)
     }
 
-    async updateOne(subscriber: any, payload: any) {
-        subscriber.name = payload.name
-        subscriber.subscribedToChannel = payload.subscribedToChannel
-        return subscriber.save()
+    async updateOne(payload: Partial<ISubscriber>) {
+        const foundSubscriber = await this._dbContext.subscriber.findById(
+            payload._id
+            )
+        if (!foundSubscriber) {
+            throw new Error('No subscriber found')
+        }
+        if (payload.name) {
+            foundSubscriber.name = payload.name
+        }
+        if (payload.channel) {
+            foundSubscriber.channel = payload.channel
+        }
+        foundSubscriber.save()
     }
 
     async deleteOne(id:string){

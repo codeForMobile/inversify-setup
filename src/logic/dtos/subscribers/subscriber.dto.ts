@@ -16,4 +16,8 @@ export class SubscriberDto {
             entity.createdAt
         )
     }
+
+    static fromMany(subscribers : ISubscriber[]) {
+        return subscribers.map(subscriber => SubscriberDto.from(subscriber))
+    }
 }

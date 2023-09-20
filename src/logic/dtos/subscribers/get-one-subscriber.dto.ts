@@ -7,5 +7,4 @@ export class GetOneSubscriberDto {
         }
         return new GetOneSubscriberDto(body.id)
     }
-
 }
