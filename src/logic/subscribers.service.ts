@@ -34,7 +34,8 @@ export class SubscribersService {
         })
     }
 
-    async deleteOne(id:string) {
-        return this._subscribersRepo.deleteOne(id)        
+    async deleteOne({id}: GetOneSubscriberDto) {
+        await this._subscribersRepo.deleteOne(id)        
+        return true
     }
 }

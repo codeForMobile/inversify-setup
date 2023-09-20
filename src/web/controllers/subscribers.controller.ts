@@ -50,9 +50,9 @@ export class SubscribersController{
             })
     }
 
-    @httpDelete('/:id')
+    @httpDelete('/:id', ValidateRequestMiddleware.withParams(GetOneSubscriberDto))
     async destory (req: Request, res: Response) {
-        await this._service.deleteOne(req.params.id)
+        await this._service.deleteOne(req.body)
         res.status(204)
     }
 }
