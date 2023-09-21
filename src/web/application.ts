@@ -1,23 +1,32 @@
 import express from "express"
 import { InversifyExpressServer } from "inversify-express-utils"
 import { DBContext } from "@data/db.context"
-import { Application } from "@web/lib/abstract-application"
+import { Application, IAbstractApplicationOptions, MorganMode } from "@web/lib/abstract-application"
 import { Container } from "inversify"
 import { SubscribersRepository } from "@data/subscribers.repository"
 import { SubscribersService } from "@logic/services/subscribers.service"
 
 import '@web/controllers/subscribers.controller'
-import { HttpException } from "./exceptions/http-exception"
 import { NotFoundException, ValidationException } from "@logic/exceptions"
 import { BaseHttpResponse } from "./lib/base-http-response"
 import morgan from "morgan"
 export class App extends Application{
+    constructor(){
+      super({
+        containerOptions: {
+          defaultScope: 'Singleton'
+        },
+        morgan: {
+          mode: MorganMode.DEV
+        }
+      })
+    }
     configureServices(container: Container): void {
       container.bind(DBContext).toSelf()
       container.bind(SubscribersRepository).toSelf()
       container.bind(SubscribersService).toSelf()
     }
-    async setup(){
+    async setup(options: IAbstractApplicationOptions){
         const _db = this.container.get(DBContext)
         await _db.connect()
         const server = new InversifyExpressServer(this.container)
@@ -42,7 +51,7 @@ export class App extends Application{
 
         server.setConfig((app) =>{
           app.use(express.json())
-          app.use(morgan('dev'))
+          app.use(morgan(options.morgan.mode))
         })
         const app = server.build()
         app.listen(process.env.PORT, () => {
@@ -50,3 +59,5 @@ export class App extends Application{
         })
     }
 }
+
+new App()
