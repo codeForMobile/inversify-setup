@@ -9,6 +9,7 @@ import { SubscribersService } from "@logic/subscribers.service"
 import '@web/controllers/subscribers.controller'
 import { HttpException } from "./exceptions/http-exception"
 import { ValidationException } from "@logic/exceptions"
+import { BaseHttpResponse } from "./lib/base-http-response"
 export class App extends Application{
     configureServices(container: Container): void {
       container.bind(DBContext).toSelf()
@@ -23,10 +24,8 @@ export class App extends Application{
           //@ts-ignore
           app.use((err, req, res,next) =>{
             if(err instanceof ValidationException) {
-              res.status(419).json({
-                data: [],
-                error: err.message
-              })
+              const response = BaseHttpResponse.failed(err.message, 419)
+              res.status(response.statusCode).json(response)
             }
             console.log(err)
             next()
