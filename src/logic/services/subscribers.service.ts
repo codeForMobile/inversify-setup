@@ -1,7 +1,8 @@
 import { injectable } from "inversify";
 import { SubscribersRepository } from "@data/subscribers.repository";
-import { CreateSubscriberDto, GetOneSubscriberDto, UpdateSubscriberDto } from "./dtos";
-import { SubscriberDto } from "./dtos/subscribers/subscriber.dto";
+import { CreateSubscriberDto, GetOneSubscriberDto, UpdateSubscriberDto } from "../dtos";
+import { SubscriberDto } from "../dtos/subscribers/subscriber.dto";
+import { NotFoundException } from "../exceptions/NotFoundException";
 
 @injectable()
 export class SubscribersService {
@@ -15,7 +16,7 @@ export class SubscribersService {
     async findOne(getOneSubscriberDto : GetOneSubscriberDto) {
         const foundSubscriber = await this._subscribersRepo.findOne(getOneSubscriberDto.id)
         if (!foundSubscriber) {
-            throw new Error('No subscribers were found with given id')
+            throw new NotFoundException()
         }
         return SubscriberDto.from(foundSubscriber)
     }

@@ -4,11 +4,11 @@ import { DBContext } from "@data/db.context"
 import { Application } from "@web/lib/abstract-application"
 import { Container } from "inversify"
 import { SubscribersRepository } from "@data/subscribers.repository"
-import { SubscribersService } from "@logic/subscribers.service"
+import { SubscribersService } from "@logic/services/subscribers.service"
 
 import '@web/controllers/subscribers.controller'
 import { HttpException } from "./exceptions/http-exception"
-import { ValidationException } from "@logic/exceptions"
+import { NotFoundException, ValidationException } from "@logic/exceptions"
 import { BaseHttpResponse } from "./lib/base-http-response"
 export class App extends Application{
     configureServices(container: Container): void {
@@ -25,9 +25,16 @@ export class App extends Application{
           app.use((err, req, res,next) =>{
             if(err instanceof ValidationException) {
               const response = BaseHttpResponse.failed(err.message, 419)
-              res.status(response.statusCode).json(response)
+              return res.status(response.statusCode).json(response)
             }
-            console.log(err)
+            if(err instanceof NotFoundException) {
+              const response = BaseHttpResponse.failed(err.message, 404)
+              return res.status(response.statusCode).json(response)
+            }
+            if(err instanceof Error) {
+              const response = BaseHttpResponse.failed(err.message, 500)
+              return res.status(response.statusCode).json(response)
+            }
             next()
           })
         })
