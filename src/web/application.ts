@@ -10,6 +10,7 @@ import '@web/controllers/subscribers.controller'
 import { HttpException } from "./exceptions/http-exception"
 import { NotFoundException, ValidationException } from "@logic/exceptions"
 import { BaseHttpResponse } from "./lib/base-http-response"
+import morgan from "morgan"
 export class App extends Application{
     configureServices(container: Container): void {
       container.bind(DBContext).toSelf()
@@ -41,6 +42,7 @@ export class App extends Application{
 
         server.setConfig((app) =>{
           app.use(express.json())
+          app.use(morgan('dev'))
         })
         const app = server.build()
         app.listen(process.env.PORT, () => {
